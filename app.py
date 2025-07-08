@@ -187,72 +187,67 @@ def app_main():
             st.markdown("</div>", unsafe_allow_html=True)
 
     elif choice == "📤 Upload & Simplify":
-        with st.container():
-            st.markdown("<div class='section'>", unsafe_allow_html=True)
-            st.subheader("📄 Upload Your Legal Document (PDF)")
-            uploaded_file = st.file_uploader("Select a legal PDF", type=["pdf"])
+        if uploaded_file:
+    if uploaded_file.size > 3 * 1024 * 1024:
+        st.error("⚠️ File too large. Please upload PDFs under 3MB.")
+        return
+    try:
+        with st.spinner("Reading and extracting text..."):
+            doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
+            full_text = "".join([page.get_text() for page in doc])
+        st.success("✅ Text extracted from PDF.")
+        with st.expander("📄 View Extracted Text"):
+            st.text_area("", full_text, height=300)
+    except Exception as e:
+        st.error(f"❌ Error reading PDF: {str(e)}")
+        return
 
-            if uploaded_file:
-                if uploaded_file.size > 3 * 1024 * 1024:
-                    st.error("⚠️ File too large. Please upload PDFs under 3MB.")
-                    return
-                try:
-                    with st.spinner("Reading and extracting text..."):
-                        doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
-                        full_text = "".join([page.get_text() for page in doc])
-                    st.success("✅ Text extracted from PDF.")
-                    with st.expander("📄 View Extracted Text"):
-                        st.text_area("", full_text, height=300)
-                except Exception as e:
-                    st.error(f"❌ Error reading PDF: {str(e)}")
-                    return
+    if st.button("🧐 Simplify Document"):
+        doc_name = uploaded_file.name.lower()
+        if st.session_state.mode == "Use Your Own OpenAI API Key":
+            from openai import OpenAI
+            client = OpenAI(api_key=st.session_state.api_key)
+            with st.spinner("Simplifying with OpenAI..."):
+                response = client.chat.completions.create(
+                    model="gpt-3.5-turbo",
+                    messages=[
+                        {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
+                        {"role": "user", "content": full_text}
+                    ]
+                )
+                simplified = response.choices[0].message.content
 
-                if st.button("🧐 Simplify Document"):
-                    doc_name = uploaded_file.name.lower()
-                    if st.session_state.mode == "Use Your Own OpenAI API Key":
-                        try:
-                            from openai import OpenAI
-                            client = OpenAI(api_key=st.session_state.api_key)
-                            with st.spinner("Simplifying with OpenAI..."):
-                                response = client.chat.completions.create(
-                                    model="gpt-3.5-turbo",
-                                    messages=[
-                                        {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
-                                        {"role": "user", "content": full_text}
-                                    ]
-                                )
-                                simplified = response.choices[0].message.content
-                        except Exception as e:
-                            st.error(f"❌ OpenAI error: {str(e)}")
-                            return
-                    elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
-                        prompt = f"""Summarize the following document in bullet points:
+        elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
+            prompt = f"""Summarize the following document in bullet points:
 
 {full_text}"""
-                        with st.spinner("Simplifying using Hugging Face..."):
-                            simplified = query_huggingface_api(prompt)
-                    else:
-                        if "rental" in doc_name:
-                            simplified = "📜 Demo Summary: This is a rental agreement between a landlord and tenant."
-                        elif "nda" in doc_name:
-                            simplified = "📜 Demo Summary: This is a non-disclosure agreement that protects shared confidential information."
-                        elif "employment" in doc_name:
-                            simplified = "📜 Demo Summary: This outlines terms of employment between a company and an employee."
-                        else:
-                            simplified = "📜 Demo Summary: Unable to identify document type. This is a general contract."
+            with st.spinner("Simplifying using Hugging Face..."):
+                simplified = query_huggingface_api(prompt)
 
-                    st.subheader("✅ Simplified Summary")
-                    st.success(simplified)
-                    save_upload(st.session_state.user_email, uploaded_file.name, simplified)
-            st.markdown("</div>", unsafe_allow_html=True)
-                        # --- PDF Download Button ---
-                    pdf_file = generate_pdf(simplified, uploaded_file.name)
-                    st.download_button(
-                    label="📥 Download Summary as PDF",
-                    data=pdf_file,
-                    file_name=f"simplified_{uploaded_file.name.replace('.pdf','')}.pdf",
-                    mime="application/pdf"
-                    )
+        else:
+            if "rental" in doc_name:
+                simplified = "📜 Demo Summary: This is a rental agreement between a landlord and tenant."
+            elif "nda" in doc_name:
+                simplified = "📜 Demo Summary: This is a non-disclosure agreement that protects shared confidential information."
+            elif "employment" in doc_name:
+                simplified = "📜 Demo Summary: This outlines terms of employment between a company and an employee."
+            else:
+                simplified = "📜 Demo Summary: Unable to identify document type. This is a general contract."
+
+        st.subheader("✅ Simplified Summary")
+        st.success(simplified)
+        save_upload(st.session_state.user_email, uploaded_file.name, simplified)
+
+        # ✅ PDF Download Section
+        pdf_file = generate_pdf(simplified, uploaded_file.name)
+        st.download_button(
+            label="📥 Download Summary as PDF",
+            data=pdf_file,
+            file_name=f"simplified_{uploaded_file.name.replace('.pdf','')}.pdf",
+            mime="application/pdf"
+        )
+
+
 
 
     elif choice == "📂 My History":
