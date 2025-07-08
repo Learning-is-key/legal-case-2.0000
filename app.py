@@ -223,7 +223,7 @@ def app_main():
         Below is a visual guide to how LegalEase works:
         """)
     
-        st.image("legalLite flowchart.png.png", caption="LegalEase App Flow", use_column_width=True)
+        st.image("legalLite flowchart.png.png", caption="LegalEase App Flow", use_container_width=True)
 
 
 
