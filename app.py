@@ -186,7 +186,7 @@ def app_main():
                 return
 
         if st.button("🧐 Simplify Document"):
-                if st.session_state.mode == "Use Your Own OpenAI API Key":
+             if st.session_state.mode == "Use Your Own OpenAI API Key":
                    if not st.session_state.api_key:
                        st.error("❌ API key not found. Please go back and enter your key.")
                        return
@@ -204,12 +204,12 @@ def app_main():
                      )
                      simplified = response.choices[0].message.content
 
-                elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
+             elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
                     prompt = f"""Summarize the following document in bullet points:\n\n{full_text}"""
                     with st.spinner("Simplifying using Hugging Face..."):
                         simplified = query_huggingface_api(prompt)
 
-                else:
+             else:
                     if "rental" in doc_name:
                         simplified = """
 This is a rental agreement made between Mr. Rakesh Kumar (the property owner) and Mr. Anil Reddy (the person renting).
