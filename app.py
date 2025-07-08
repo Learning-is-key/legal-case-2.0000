@@ -101,17 +101,6 @@ def login_section():
             else:
                 st.error("Invalid email or password.")
 
-def signup_section():
-    with st.container():
-        st.subheader("📝 Create an Account")
-        email = st.text_input("New Email")
-        password = st.text_input("New Password", type="password")
-        if st.button("Sign Up"):
-            if register_user(email, hash_password(password)):
-                st.success("Account created! You can now login.")
-            else:
-                st.error("User already exists.")
-
 def choose_mode():
     st.markdown("### 🎛️ Choose how you'd like to use LegalLite:")
     st.markdown("Pick a mode based on your preference:")
@@ -132,17 +121,26 @@ def choose_mode():
             st.session_state.mode = "Use Open-Source AI via Hugging Face"
             st.session_state.mode_chosen = True
 
-    # Show API key input if that mode was clicked
     if st.session_state.mode == "Use Your Own OpenAI API Key" and not st.session_state.mode_chosen:
-        st.text_input("Paste your OpenAI API Key", key="api_key", type="password")
+        api_input = st.text_input("Paste your OpenAI API Key", type="password")
         if st.button("➡️ Continue"):
-            if st.session_state.api_key.strip() == "":
+            if api_input.strip() == "":
                 st.warning("Please enter your API key.")
             else:
+                st.session_state.api_key = api_input  # ✅ Explicitly save it
                 st.session_state.mode_chosen = True
-    
+def signup_section():
+    with st.container():
+        st.subheader("📝 Create an Account")
+        email = st.text_input("New Email")
+        password = st.text_input("New Password", type="password")
+        if st.button("Sign Up"):
+            if register_user(email, hash_password(password)):
+                st.success("Account created! You can now login.")
+            else:
+                st.error("User already exists.")  
   
-    if st.button("Continue"):
+       if st.button("Continue"):
          if mode == "Use Your Own OpenAI API Key" and not api_key:
             st.warning("Please enter your API key to continue.")
          else:
@@ -188,19 +186,23 @@ def app_main():
                 return
 
             if st.button("🧐 Simplify Document"):
-                doc_name = uploaded_file.name.lower()
                 if st.session_state.mode == "Use Your Own OpenAI API Key":
-                    from openai import OpenAI
-                    client = OpenAI(api_key=st.session_state.api_key)
-                    with st.spinner("Simplifying with OpenAI..."):
-                        response = client.chat.completions.create(
-                            model="gpt-3.5-turbo",
-                            messages=[
-                                {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
-                                {"role": "user", "content": full_text}
-                            ]
-                        )
-                        simplified = response.choices[0].message.content
+                   if not st.session_state.api_key:
+                   st.error("❌ API key not found. Please go back and enter your key.")
+                   return
+
+                from openai import OpenAI
+                client = OpenAI(api_key=st.session_state.api_key)
+
+                with st.spinner("Simplifying with OpenAI..."):
+                   response = client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=[
+                           {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
+                           {"role": "user", "content": full_text}
+                        ]
+                   )
+                   simplified = response.choices[0].message.content
 
                 elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
                     prompt = f"""Summarize the following document in bullet points:\n\n{full_text}"""
