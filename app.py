@@ -195,9 +195,9 @@ def app_main():
                             st.error(f"❌ OpenAI error: {str(e)}")
                             return
                     elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
-                        prompt = f"Summarize the following document in bullet points:
+                        prompt = f"""Summarize the following document in bullet points:
 
-{full_text}"
+{full_text}"""
                         with st.spinner("Simplifying using Hugging Face..."):
                             simplified = query_huggingface_api(prompt)
                     else:
