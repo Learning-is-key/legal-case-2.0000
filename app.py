@@ -2,6 +2,10 @@ import streamlit as st
 import fitz  # PyMuPDF
 import requests
 import hashlib
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from io import BytesIO
+from datetime import datetime
 from db import init_db, register_user, login_user, save_upload, get_user_history
 
 # Load Hugging Face token
@@ -24,6 +28,33 @@ for key in ["logged_in", "user_email", "mode", "api_key", "mode_chosen"]:
 # --- UTILITY ---
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
+
+def generate_pdf(summary_text, filename):
+    buffer = BytesIO()
+    c = canvas.Canvas(buffer, pagesize=letter)
+    width, height = letter
+    c.setFont("Helvetica", 12)
+    margin = 40
+    y = height - margin
+
+    c.drawString(margin, y, f"LegalEase Summary - {filename}")
+    y -= 20
+    c.drawString(margin, y, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    y -= 30
+
+    lines = summary_text.split('\n')
+    for line in lines:
+        for subline in [line[i:i+90] for i in range(0, len(line), 90)]:
+            if y < margin:
+                c.showPage()
+                c.setFont("Helvetica", 12)
+                y = height - margin
+            c.drawString(margin, y, subline)
+            y -= 20
+
+    c.save()
+    buffer.seek(0)
+    return buffer
 
 # --- STYLED HEADER ---
 st.markdown("""
@@ -214,6 +245,15 @@ def app_main():
                     st.success(simplified)
                     save_upload(st.session_state.user_email, uploaded_file.name, simplified)
             st.markdown("</div>", unsafe_allow_html=True)
+                        # --- PDF Download Button ---
+                    pdf_file = generate_pdf(simplified, uploaded_file.name)
+                    st.download_button(
+                    label="📥 Download Summary as PDF",
+                    data=pdf_file,
+                    file_name=f"simplified_{uploaded_file.name.replace('.pdf','')}.pdf",
+                    mime="application/pdf"
+                    )
+
 
     elif choice == "📂 My History":
         with st.container():
