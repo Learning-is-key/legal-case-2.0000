@@ -209,7 +209,7 @@ def app_main():
                 with st.expander(f"📄 {file_name} | 🕒 {timestamp}"):
                     st.text(summary)
 
-   elif choice == "❓ Help & Feedback":
+    elif choice == "❓ Help & Feedback":
         st.subheader("❓ Help & Feedback")
         st.markdown("""
         - **About LegalEase**: This tool simplifies legal documents in plain English using AI.
