@@ -78,7 +78,7 @@ def query_huggingface_api(prompt):
         output = response.json()
         if isinstance(output, list) and len(output) > 0:
             return output[0].get("summary_text", str(output[0]))
-        elif isinstance(output, dict) and "summary_text" in output:
+        if isinstance(output, dict) and "summary_text" in output:
             return output["summary_text"]
         else:
             return f"⚠️ Unexpected output: {output}"
@@ -166,7 +166,7 @@ def app_main():
             st.session_state.user_email = ""
             st.success("Logged out. Refresh to login again.")
 
-    elif choice == "📄 Upload & Simplify":
+    if choice == "📄 Upload & Simplify":
         st.subheader("📄 Upload Your Legal Document (PDF)")
         uploaded_file = st.file_uploader("Select a legal PDF", type=["pdf"])
 
@@ -186,30 +186,30 @@ def app_main():
                 return
 
         if st.button("🧐 Simplify Document"):
-             if st.session_state.mode == "Use Your Own OpenAI API Key":
+                if st.session_state.mode == "Use Your Own OpenAI API Key":
                    if not st.session_state.api_key:
-                       st.error("❌ API key not found. Please go back and enter your key.")
-                       return
+                     st.error("❌ API key not found. Please go back and enter your key.")
+                     return
 
-                   from openai import OpenAI
-                   client = OpenAI(api_key=st.session_state.api_key)
+                from openai import OpenAI
+                client = OpenAI(api_key=st.session_state.api_key)
 
-                   with st.spinner("Simplifying with OpenAI..."):
-                       response = client.chat.completions.create(
-                          model="gpt-3.5-turbo",
-                          messages=[
-                             {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
-                             {"role": "user", "content": full_text}
-                          ]
-                       )
-                       simplified = response.choices[0].message.content
+                with st.spinner("Simplifying with OpenAI..."):
+                   response = client.chat.completions.create(
+                        model="gpt-3.5-turbo",
+                        messages=[
+                           {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
+                           {"role": "user", "content": full_text}
+                        ]
+                   )
+                   simplified = response.choices[0].message.content
 
-             elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
+                if st.session_state.mode == "Use Open-Source AI via Hugging Face":
                     prompt = f"""Summarize the following document in bullet points:\n\n{full_text}"""
                     with st.spinner("Simplifying using Hugging Face..."):
                         simplified = query_huggingface_api(prompt)
 
-             else:
+                else:
                     if "rental" in doc_name:
                         simplified = """
 This is a rental agreement made between Mr. Rakesh Kumar (the property owner) and Mr. Anil Reddy (the person renting).
@@ -223,7 +223,7 @@ This is a rental agreement made between Mr. Rakesh Kumar (the property owner) an
 
 In short: this document explains the rules of staying in the rented house, money terms, and how both sides can exit the deal.
                     """
-                    elif "nda" in doc_name:
+                    if "nda" in doc_name:
                         simplified =  """
 This Non-Disclosure Agreement (NDA) is between TechNova Pvt. Ltd. and Mr. Kiran Rao.
 
@@ -236,7 +236,7 @@ This Non-Disclosure Agreement (NDA) is between TechNova Pvt. Ltd. and Mr. Kiran 
 
 In short: Kiran must not reveal or misuse any business secrets he gets from TechNova during their potential partnership.
                     """
-                    elif "employment" in doc_name:
+                    if "employment" in doc_name:
                         simplified =  """
 This is an official job contract between GlobalTech Ltd. and Ms. Priya Sharma.
 
@@ -267,7 +267,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                     mime="application/pdf"
                 )
 
-    elif choice == "📂 My History":
+    if choice == "📂 My History":
         st.subheader("📂 Your Uploaded History")
         history = get_user_history(st.session_state.user_email)
         if not history:
@@ -276,7 +276,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
             for file_name, summary, timestamp in history:
                 with st.expander(f"📄 {file_name} | 🕒 {timestamp}"):
                     st.text(summary)
-    elif choice == "❓ Help & Feedback":
+    if choice == "❓ Help & Feedback":
       st.subheader("❓ Help & Feedback")
       st.markdown("""
       - **About LegalEase**: This tool simplifies legal documents in plain English using AI.
@@ -339,3 +339,4 @@ else:
 
 # --- FOOTER ---
 st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalLite. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
+
