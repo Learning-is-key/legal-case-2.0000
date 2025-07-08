@@ -140,13 +140,13 @@ def signup_section():
             else:
                 st.error("User already exists.")  
   
-       if st.button("Continue"):
-         if mode == "Use Your Own OpenAI API Key" and not api_key:
-            st.warning("Please enter your API key to continue.")
-         else:
-                st.session_state.mode = mode
-                st.session_state.api_key = api_key
-                st.session_state.mode_chosen = True
+        if st.button("Continue"):
+           if mode == "Use Your Own OpenAI API Key" and not api_key:
+               st.warning("Please enter your API key to continue.")
+           else:
+                 st.session_state.mode = mode
+                 st.session_state.api_key = api_key
+                 st.session_state.mode_chosen = True
 
 def app_main():
     if st.button("🔙 Back to Mode Selection"):
