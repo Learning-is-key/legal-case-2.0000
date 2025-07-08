@@ -226,10 +226,10 @@ def app_main():
         st.image("flowchart.png.png", caption="LegalEase App Flow", width=400)
         st.markdown("### 📂 Download Predefined Demo Files")
 
-    col1, col2, col3 = st.columns(3)
+        col1, col2, col3 = st.columns(3)
 
-    with col1:
-        with open("Sample_Rental_Agreement.pdf", "rb") as file:
+        with col1:
+            with open("Sample_Rental_Agreement.pdf", "rb") as file:
             st.download_button(
                 label="🏠 Rental", 
                 data=file, 
@@ -237,8 +237,8 @@ def app_main():
                 mime="application/pdf"
             )
 
-    with col2:
-        with open("Sample_NDA_Agreement.pdf", "rb") as file:
+        with col2:
+            with open("Sample_NDA_Agreement.pdf", "rb") as file:
             st.download_button(
                 label="🔒 NDA", 
                 data=file, 
@@ -246,8 +246,8 @@ def app_main():
                 mime="application/pdf"
             )
 
-    with col3:
-        with open("Sample_Employment_Contract.pdf", "rb") as file:
+        with col3:
+            with open("Sample_Employment_Contract.pdf", "rb") as file:
             st.download_button(
                 label="🧑‍💼 Employment", 
                 data=file, 
