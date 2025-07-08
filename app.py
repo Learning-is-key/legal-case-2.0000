@@ -188,8 +188,8 @@ def app_main():
         if st.button("🧐 Simplify Document"):
                 if st.session_state.mode == "Use Your Own OpenAI API Key":
                    if not st.session_state.api_key:
-                   st.error("❌ API key not found. Please go back and enter your key.")
-                   return
+                     st.error("❌ API key not found. Please go back and enter your key.")
+                     return
 
                 from openai import OpenAI
                 client = OpenAI(api_key=st.session_state.api_key)
