@@ -208,54 +208,54 @@ def app_main():
             for file_name, summary, timestamp in history:
                 with st.expander(f"📄 {file_name} | 🕒 {timestamp}"):
                     st.text(summary)
+	elif choice == "❓ Help & Feedback":
+		st.subheader("❓ Help & Feedback")
+		st.markdown("""
+		- **About LegalEase**: This tool simplifies legal documents in plain English using AI.
+		- **Modes**:
+			- *Demo Mode*: Uses sample summaries.
+			- *OpenAI API*: Your key, high-quality output.
+			- *Hugging Face*: Free, open-source summarization.
+		- **Suggestions or bugs?** Drop a message at `support@legalease.com`.
 
-    elif choice == "❓ Help & Feedback":
-    st.subheader("❓ Help & Feedback")
-    st.markdown("""
-    - **About LegalEase**: This tool simplifies legal documents in plain English using AI.
-    - **Modes**:
-        - *Demo Mode*: Uses sample summaries.
-        - *OpenAI API*: Your key, high-quality output.
-        - *Hugging Face*: Free, open-source summarization.
-    - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
+		### 🖼️ How It Works
+		Below is a visual guide to how LegalEase works:
+		""")
 
-    ### 🖼️ How It Works
-    Below is a visual guide to how LegalEase works:
-    """)
+		st.image("flowchart.png", caption="LegalEase App Flow", use_container_width=True)
 
-    st.image("flowchart.png", caption="LegalEase App Flow", use_container_width=True)
+		st.markdown("### 📂 Download Predefined Demo Files")
 
-    st.markdown("### 📂 Download Predefined Demo Files")
+		col1, col2, col3 = st.columns(3)
 
-    col1, col2, col3 = st.columns(3)
+		with col1:
+			with open("Sample_Rental_Agreement.pdf", "rb") as file:
+				st.download_button(
+					label="🏠 Rental", 
+					data=file, 
+					file_name="rental.pdf", 
+					mime="application/pdf"
+				)
 
-    with col1:
-        with open("Sample_Rental_Agreement.pdf", "rb") as file:
-            st.download_button(
-                label="🏠 Rental", 
-                data=file, 
-                file_name="rental.pdf", 
-                mime="application/pdf"
-            )
+		with col2:
+			with open("Sample_NDA_Agreement.pdf", "rb") as file:
+				st.download_button(
+					label="🔒 NDA", 
+					data=file, 
+					file_name="nda.pdf", 
+					mime="application/pdf"
+				)
 
-    with col2:
-        with open("Sample_NDA_Agreement.pdf", "rb") as file:
-            st.download_button(
-                label="🔒 NDA", 
-                data=file, 
-                file_name="nda.pdf", 
-                mime="application/pdf"
-            )
-
-    with col3:
-        with open("Sample_Employment_Contract.pdf", "rb") as file:
-            st.download_button(
-                label="🧑‍💼 Employment", 
-                data=file, 
-                file_name="employee_contract.pdf", 
-                mime="application/pdf"
-            )
-
+		with col3:
+			with open("Sample_Employment_Contract.pdf", "rb") as file:
+				st.download_button(
+					label="🧑‍💼 Employment", 
+					data=file, 
+					file_name="employee_contract.pdf", 
+					mime="application/pdf"
+				)
+    
+  
 # --- ROUTING ---
 if not st.session_state.logged_in:
     tab = st.tabs(["Login", "Sign Up"])
