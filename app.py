@@ -195,7 +195,7 @@ def app_main():
                    client = OpenAI(api_key=st.session_state.api_key)
 
                    with st.spinner("Simplifying with OpenAI..."):
-                      response = client.chat.completions.create(
+                     response = client.chat.completions.create(
                           model="gpt-3.5-turbo",
                           messages=[
                              {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
