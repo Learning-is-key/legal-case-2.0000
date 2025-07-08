@@ -188,21 +188,21 @@ def app_main():
         if st.button("🧐 Simplify Document"):
                 if st.session_state.mode == "Use Your Own OpenAI API Key":
                    if not st.session_state.api_key:
-                     st.error("❌ API key not found. Please go back and enter your key.")
-                     return
+                       st.error("❌ API key not found. Please go back and enter your key.")
+                       return
 
-                from openai import OpenAI
-                client = OpenAI(api_key=st.session_state.api_key)
+                   from openai import OpenAI
+                   client = OpenAI(api_key=st.session_state.api_key)
 
-                with st.spinner("Simplifying with OpenAI..."):
-                   response = client.chat.completions.create(
-                        model="gpt-3.5-turbo",
-                        messages=[
-                           {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
-                           {"role": "user", "content": full_text}
-                        ]
-                   )
-                   simplified = response.choices[0].message.content
+                   with st.spinner("Simplifying with OpenAI..."):
+                      response = client.chat.completions.create(
+                          model="gpt-3.5-turbo",
+                          messages=[
+                             {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
+                             {"role": "user", "content": full_text}
+                          ]
+                     )
+                     simplified = response.choices[0].message.content
 
                 elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
                     prompt = f"""Summarize the following document in bullet points:\n\n{full_text}"""
