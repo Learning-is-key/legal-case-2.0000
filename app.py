@@ -107,6 +107,9 @@ def choose_mode():
 
     col1, col2, col3 = st.columns(3)
 
+    if "api_input" not in st.session_state:
+        st.session_state.api_input = ""
+
     with col1:
         if st.button("🧪 Demo Mode"):
             st.session_state.mode = "Demo Mode"
@@ -115,6 +118,7 @@ def choose_mode():
     with col2:
         if st.button("🔐 Use Your API Key"):
             st.session_state.mode = "Use Your Own OpenAI API Key"
+            st.session_state.mode_chosen = False  # wait for key entry
 
     with col3:
         if st.button("🌐 Hugging Face"):
@@ -122,13 +126,14 @@ def choose_mode():
             st.session_state.mode_chosen = True
 
     if st.session_state.mode == "Use Your Own OpenAI API Key" and not st.session_state.mode_chosen:
-        api_input = st.text_input("Paste your OpenAI API Key", type="password")
+        st.session_state.api_input = st.text_input("Paste your OpenAI API Key", type="password")
         if st.button("➡️ Continue"):
-            if api_input.strip() == "":
+            if st.session_state.api_input.strip() == "":
                 st.warning("Please enter your API key.")
             else:
-                st.session_state.api_key = api_input  # ✅ Explicitly save it
+                st.session_state.api_key = st.session_state.api_input
                 st.session_state.mode_chosen = True
+
 def signup_section():
     with st.container():
         st.subheader("📝 Create an Account")
@@ -192,6 +197,7 @@ def app_main():
                          st.error("❌ API key not found. Please go back and enter your key.")
                          return
                      try:
+                         st.warning("✅ Entered OpenAI summarization block")
                          from openai import OpenAI
                          client = OpenAI(api_key=st.session_state.api_key)
 
