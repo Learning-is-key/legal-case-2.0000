@@ -130,6 +130,12 @@ def choose_mode():
                 st.session_state.mode_chosen = True
 
 def app_main():
+    if st.button("🔙 Back to Mode Selection"):
+        st.session_state.mode_chosen = False
+        st.session_state.mode = ""
+        st.session_state.api_key = ""
+        return
+
     st.sidebar.title("📓 Navigation")
     choice = st.sidebar.radio("Go to", ["👤 Profile", "📄 Upload & Simplify", "📂 My History", "❓ Help & Feedback"])
 
