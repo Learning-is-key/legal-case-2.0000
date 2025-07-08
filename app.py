@@ -224,7 +224,7 @@ def app_main():
         """)
     
         st.image("flowchart.png.png", caption="LegalEase App Flow", width=400)
-            st.markdown("### 📂 Download Predefined Demo Files")
+        st.markdown("### 📂 Download Predefined Demo Files")
 
     col1, col2, col3 = st.columns(3)
 
