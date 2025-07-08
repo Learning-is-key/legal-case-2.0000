@@ -46,6 +46,13 @@ st.markdown("""
         margin-bottom: 2em;
         box-shadow: 0 0 10px rgba(0,0,0,0.05);
     }
+    .sidebar-title {
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-top: 2em;
+        margin-bottom: 0.5em;
+        color: #555;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -130,10 +137,25 @@ def query_huggingface_api(prompt):
 
 # --- MAIN APP ---
 def app_main():
-    st.sidebar.title("📚 Menu")
-    choice = st.sidebar.radio("Navigate", ["📤 Upload & Simplify", "📂 My History", "🚪 Logout"])
+    st.sidebar.markdown("<div class='sidebar-title'>🔧 Account</div>", unsafe_allow_html=True)
+    nav_choices = ["📇 My Profile", "📤 Upload & Simplify", "📂 My History"]
+    st.sidebar.markdown("<div class='sidebar-title'>🛠 Features</div>", unsafe_allow_html=True)
+    nav_choices.append("❓ Help & Feedback")
 
-    if choice == "📤 Upload & Simplify":
+    choice = st.sidebar.radio("", nav_choices)
+
+    if choice == "📇 My Profile":
+        with st.container():
+            st.markdown("<div class='section'>", unsafe_allow_html=True)
+            st.subheader("👤 My Profile")
+            st.write(f"**Logged in as:** {st.session_state.user_email}")
+            if st.button("🚪 Log Out"):
+                for key in ["logged_in", "user_email", "mode", "api_key", "mode_chosen"]:
+                    st.session_state[key] = False if key == "logged_in" else ""
+                st.success("✅ Logged out. Refresh the page to log in again.")
+            st.markdown("</div>", unsafe_allow_html=True)
+
+    elif choice == "📤 Upload & Simplify":
         with st.container():
             st.markdown("<div class='section'>", unsafe_allow_html=True)
             st.subheader("📄 Upload Your Legal Document (PDF)")
@@ -204,10 +226,16 @@ def app_main():
                         st.text(summary)
             st.markdown("</div>", unsafe_allow_html=True)
 
-    elif choice == "🚪 Logout":
-        for key in ["logged_in", "user_email", "mode", "api_key", "mode_chosen"]:
-            st.session_state[key] = False if key == "logged_in" else ""
-        st.success("✅ Logged out. Refresh the page to log in again.")
+    elif choice == "❓ Help & Feedback":
+        with st.container():
+            st.markdown("<div class='section'>", unsafe_allow_html=True)
+            st.subheader("❓ Help & Feedback")
+            st.markdown("""
+                - **How to Use**: Upload a legal PDF and click 'Simplify Document'.
+                - **Privacy**: Your uploads are stored securely under your account.
+                - **Feedback**: Email us at support@legalease.app or use the contact form.
+            """)
+            st.markdown("</div>", unsafe_allow_html=True)
 
 # --- ROUTING ---
 if not st.session_state.logged_in:
