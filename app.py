@@ -222,7 +222,7 @@ def app_main():
       Below is a visual guide to how LegalEase works:
       """)
 
-      st.image("flowchart.png", caption="LegalEase App Flow", use_container_width=True)
+      st.image("flowchart.png.png", caption="LegalEase App Flow", use_container_width=True)
   
       st.markdown("### 📂 Download Predefined Demo Files")
 
@@ -233,7 +233,7 @@ def app_main():
               st.download_button(
                   label="🏠 Rental", 
                   data=file, 
-                  file_name="rental.pdf", 
+                  file_name="Sample_Rental_Agreement.pdf", 
                   mime="application/pdf"
               )
 
@@ -242,7 +242,7 @@ def app_main():
               st.download_button(
                   label="🔒 NDA", 
                   data=file, 
-                  file_name="nda.pdf", 
+                  file_name="Sample_NDA_Agreement.pdf", 
                   mime="application/pdf"
               )
 
@@ -251,7 +251,7 @@ def app_main():
               st.download_button(
                   label="🧑‍💼 Employment", 
                   data=file, 
-                  file_name="employee_contract.pdf", 
+                  file_name="Sample_Employment_Contract.pdf", 
                   mime="application/pdf"
               )
 
