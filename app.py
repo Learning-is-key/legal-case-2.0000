@@ -115,42 +115,45 @@ def app_main():
                     full_text = "".join([page.get_text() for page in doc])
                 st.success("✅ Text extracted from PDF.")
                 st.text_area("📄 Extracted Text", full_text, height=300)
+            except Exception as e:
+                st.error(f"❌ Error reading PDF: {str(e)}")
+                return
 
-                if st.button("🧐 Simplify Document"):
-                    doc_name = uploaded_file.name.lower()
-                    if st.session_state.mode == "Use Your Own OpenAI API Key":
-                        try:
-                            from openai import OpenAI
-                            client = OpenAI(api_key=st.session_state.api_key)
-                            with st.spinner("Simplifying with OpenAI..."):
-                                response = client.chat.completions.create(
-                                    model="gpt-3.5-turbo",
-                                    messages=[
-                                        {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
-                                        {"role": "user", "content": full_text}
-                                    ]
-                                )
-                                simplified = response.choices[0].message.content
-                        except Exception as e:
-                            st.error(f"❌ OpenAI error: {str(e)}")
-                            return
-                    elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
-                        prompt = f"""Simplify the following legal document in plain English, avoiding legal jargon:\n\n{full_text}"""
-                        with st.spinner("Simplifying using Hugging Face..."):
-                            simplified = query_huggingface_api(prompt)
+            if st.button("🧐 Simplify Document"):
+                doc_name = uploaded_file.name.lower()
+                if st.session_state.mode == "Use Your Own OpenAI API Key":
+                    try:
+                        from openai import OpenAI
+                        client = OpenAI(api_key=st.session_state.api_key)
+                        with st.spinner("Simplifying with OpenAI..."):
+                            response = client.chat.completions.create(
+                                model="gpt-3.5-turbo",
+                                messages=[
+                                    {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
+                                    {"role": "user", "content": full_text}
+                                ]
+                            )
+                            simplified = response.choices[0].message.content
+                    except Exception as e:
+                        st.error(f"❌ OpenAI error: {str(e)}")
+                        return
+                elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
+                    prompt = f"""Simplify the following legal document in plain English, avoiding legal jargon:\n\n{full_text}"""
+                    with st.spinner("Simplifying using Hugging Face..."):
+                        simplified = query_huggingface_api(prompt)
+                else:
+                    if "rental" in doc_name:
+                        simplified = "📜 Demo Summary: This is a rental agreement between a landlord and tenant."
+                    elif "nda" in doc_name:
+                        simplified = "📜 Demo Summary: This is a non-disclosure agreement that protects shared confidential information."
+                    elif "employment" in doc_name:
+                        simplified = "📜 Demo Summary: This outlines terms of employment between a company and an employee."
                     else:
-                        if "rental" in doc_name:
-                            simplified = "📜 Demo Summary: This is a rental agreement between a landlord and tenant."
-                        elif "nda" in doc_name:
-                            simplified = "📜 Demo Summary: This is a non-disclosure agreement that protects shared confidential information."
-                        elif "employment" in doc_name:
-                            simplified = "📜 Demo Summary: This outlines terms of employment between a company and an employee."
-                        else:
-                            simplified = "📜 Demo Summary: Unable to identify document type. This is a general contract."
+                        simplified = "📜 Demo Summary: Unable to identify document type. This is a general contract."
 
-                    st.subheader("✅ Simplified Summary")
-                    st.success(simplified)
-                    save_upload(st.session_state.user_email, uploaded_file.name, simplified)
+                st.subheader("✅ Simplified Summary")
+                st.success(simplified)
+                save_upload(st.session_state.user_email, uploaded_file.name, simplified)
 
     elif choice == "My History":
         st.subheader("📂 Your Uploaded History")
