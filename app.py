@@ -18,7 +18,10 @@ except Exception:
 init_db()
 
 # --- CONFIG ---
-st.set_page_config(page_title="LegalEase 2.0", layout="wide", page_icon="📜")
+st.set_page_config(page_title="LegalLite", layout="wide", page_icon="⚖️")
+
+# --- HEADER BRANDING ---
+st.markdown("<h1 style='text-align: center; color: #29465B;'>⚖️ LegalLite</h1>", unsafe_allow_html=True)
 
 # --- SESSION STATE ---
 for key in ["logged_in", "user_email", "mode", "api_key", "mode_chosen"]:
