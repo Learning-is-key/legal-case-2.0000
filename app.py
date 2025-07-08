@@ -203,6 +203,7 @@ def app_main():
 
     
 # --- ROUTING ---
+# --- ROUTING ---
 if not st.session_state.logged_in:
     tab = st.tabs(["Login", "Sign Up"])
     with tab[0]:
@@ -210,10 +211,22 @@ if not st.session_state.logged_in:
     with tab[1]:
         signup_section()
 else:
-    if not st.session_state.mode_chosen:
-        choose_mode()
-    else:
-        app_main()
+    # Force Demo Mode for testing
+    st.session_state.mode = "Demo Mode (no real AI)"
+    st.session_state.mode_chosen = True
+    app_main()
+
+#if not st.session_state.logged_in:
+#    tab = st.tabs(["Login", "Sign Up"])
+#    with tab[0]:
+#        login_section()
+#    with tab[1]:
+#        signup_section()
+#else:
+#    if not st.session_state.mode_chosen:
+#        choose_mode()
+#    else:
+#        app_main()
 
 # --- FOOTER ---
 st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalEase. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
