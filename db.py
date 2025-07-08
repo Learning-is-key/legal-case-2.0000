@@ -1,9 +1,14 @@
 import sqlite3
 from datetime import datetime
+import hashlib
 
 DB_NAME = "users.db"
 
-# Create tables if not exists
+# --- Utility: Hash password ---
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+# --- Create tables if not exists ---
 def init_db():
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
@@ -25,25 +30,27 @@ def init_db():
     conn.commit()
     conn.close()
 
-# Register user
+# --- Register user ---
 def register_user(email, password):
     try:
         conn = sqlite3.connect(DB_NAME)
         c = conn.cursor()
-        c.execute("INSERT INTO users (email, password) VALUES (?, ?)", (email, password))
+        hashed = hash_password(password)
+        c.execute("INSERT INTO users (email, password) VALUES (?, ?)", (email, hashed))
         conn.commit()
         return True
     except:
         return False
 
-# Login check
+# --- Login check ---
 def login_user(email, password):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
-    c.execute("SELECT * FROM users WHERE email=? AND password=?", (email, password))
+    hashed = hash_password(password)
+    c.execute("SELECT * FROM users WHERE email=? AND password=?", (email, hashed))
     return c.fetchone()
 
-# Save upload history
+# --- Save upload history ---
 def save_upload(email, filename, summary):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
@@ -53,7 +60,7 @@ def save_upload(email, filename, summary):
     conn.commit()
     conn.close()
 
-# Fetch history
+# --- Fetch history ---
 def get_user_history(email):
     conn = sqlite3.connect(DB_NAME)
     c = conn.cursor()
