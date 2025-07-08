@@ -326,11 +326,13 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
   
 # --- ROUTING ---
 if not st.session_state.logged_in:
-    tab = st.tabs(["Login", "Sign Up"])
-    with tab[0]:
+    login_tab, signup_tab = st.tabs(["Login", "Sign Up"])
+
+    with login_tab:
         login_section()
-    with tab[1]:
+    with signup_tab:
         signup_section()
+
 else:
     if not st.session_state.mode_chosen:
         choose_mode()
