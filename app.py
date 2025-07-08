@@ -195,7 +195,15 @@ def app_main():
                             st.error(f"❌ OpenAI error: {str(e)}")
                             return
                     elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
-                        prompt = f"""Simplify the following legal document in plain English, avoiding legal jargon:\n\n{full_text}"""
+                        prompt = f"""Please read the following legal document and extract the most important information.
+
+Summarize it using clear bullet points that highlight key terms, obligations, rights, and conditions.
+
+Use plain English. Avoid legal jargon. Focus only on what truly matters.
+
+TEXT:
+{full_text}"""
+
                         with st.spinner("Simplifying using Hugging Face..."):
                             simplified = query_huggingface_api(prompt)
                     else:
