@@ -231,13 +231,13 @@ else:
 # --- FOOTER ---
 st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalEase. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
 
-    elif choice == "📇 My Profile":
+ elif choice == "📇 My Profile":
         st.subheader("👤 My Profile")
         if st.button("🔓 Logout"):
             st.session_state.logged_in = False
             st.session_state.user_email = ""
             st.success("Logged out. Refresh to login again.")
 
-    elif choice == "❓ Help & Feedback":
+ elif choice == "❓ Help & Feedback":
         st.subheader("❓ Help & Feedback")
         st.markdown("Coming soon: FAQs, support, and feedback forms.")
