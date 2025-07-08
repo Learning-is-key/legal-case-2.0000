@@ -112,7 +112,8 @@ def choose_mode():
 # --- HUGGING FACE API WRAPPER ---
 @st.cache_data
 def query_huggingface_api(prompt):
-    API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+    API_URL = "https://api-inference.huggingface.co/models/google/pegasus-xsum"
+
     headers = {"Authorization": f"Bearer {hf_token}"}
 
     try:
