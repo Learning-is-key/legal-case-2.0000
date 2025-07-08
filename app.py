@@ -210,26 +210,27 @@ def app_main():
                     st.text(summary)
 
     elif choice == "❓ Help & Feedback":
-        st.subheader("❓ Help & Feedback")
-        st.markdown("""
-        - **About LegalEase**: This tool simplifies legal documents in plain English using AI.
-        - **Modes**:
-            - *Demo Mode*: Uses sample summaries.
-            - *OpenAI API*: Your key, high-quality output.
-            - *Hugging Face*: Free, open-source summarization.
-        - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
+    st.subheader("❓ Help & Feedback")
+    st.markdown("""
+    - **About LegalEase**: This tool simplifies legal documents in plain English using AI.
+    - **Modes**:
+        - *Demo Mode*: Uses sample summaries.
+        - *OpenAI API*: Your key, high-quality output.
+        - *Hugging Face*: Free, open-source summarization.
+    - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
 
-        ### 🖼️ How It Works
-        Below is a visual guide to how LegalEase works:
-        """)
-    
-        st.image("flowchart.png.png", caption="LegalEase App Flow", width=400)
-        st.markdown("### 📂 Download Predefined Demo Files")
+    ### 🖼️ How It Works
+    Below is a visual guide to how LegalEase works:
+    """)
 
-        col1, col2, col3 = st.columns(3)
+    st.image("flowchart.png", caption="LegalEase App Flow", use_container_width=True)
 
-        with col1:
-            with open("Sample_Rental_Agreement.pdf", "rb") as file:
+    st.markdown("### 📂 Download Predefined Demo Files")
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        with open("Sample_Rental_Agreement.pdf", "rb") as file:
             st.download_button(
                 label="🏠 Rental", 
                 data=file, 
@@ -237,8 +238,8 @@ def app_main():
                 mime="application/pdf"
             )
 
-        with col2:
-            with open("Sample_NDA_Agreement.pdf", "rb") as file:
+    with col2:
+        with open("Sample_NDA_Agreement.pdf", "rb") as file:
             st.download_button(
                 label="🔒 NDA", 
                 data=file, 
@@ -246,15 +247,14 @@ def app_main():
                 mime="application/pdf"
             )
 
-        with col3:
-            with open("Sample_Employment_Contract.pdf", "rb") as file:
+    with col3:
+        with open("Sample_Employment_Contract.pdf", "rb") as file:
             st.download_button(
                 label="🧑‍💼 Employment", 
                 data=file, 
                 file_name="employee_contract.pdf", 
                 mime="application/pdf"
             )
-
 
 # --- ROUTING ---
 if not st.session_state.logged_in:
