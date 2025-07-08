@@ -127,9 +127,17 @@ def choose_mode():
 
 def app_main():
     st.sidebar.title("📓 Navigation")
-    choice = st.sidebar.radio("Go to", ["Upload & Simplify", "My History", "Logout"])
+    choice = st.sidebar.radio("Go to", ["👤 Profile", "📄 Upload & Simplify", "📂 My History", "❓ Help & Feedback"])
 
-    if choice == "Upload & Simplify":
+    if choice == "👤 Profile":
+        st.subheader("👤 Your Profile")
+        st.write(f"**Logged in as:** `{st.session_state.user_email}`")
+        if st.button("🚪 Logout"):
+            st.session_state.logged_in = False
+            st.session_state.user_email = ""
+            st.success("Logged out. Refresh to login again.")
+
+    elif choice == "📄 Upload & Simplify":
         st.subheader("📄 Upload Your Legal Document (PDF)")
         uploaded_file = st.file_uploader("Select a legal PDF", type=["pdf"])
 
@@ -191,7 +199,7 @@ def app_main():
                     mime="application/pdf"
                 )
 
-    elif choice == "My History":
+    elif choice == "📂 My History":
         st.subheader("📂 Your Uploaded History")
         history = get_user_history(st.session_state.user_email)
         if not history:
@@ -201,10 +209,17 @@ def app_main():
                 with st.expander(f"📄 {file_name} | 🕒 {timestamp}"):
                     st.text(summary)
 
-    elif choice == "Logout":
-        st.session_state.logged_in = False
-        st.session_state.user_email = ""
-        st.success("Logged out. Refresh to login again.")
+    elif choice == "❓ Help & Feedback":
+        st.subheader("❓ Help & Feedback")
+        st.markdown("""
+        - **About LegalEase**: This tool simplifies legal documents in plain English using AI.
+        - **Modes**:
+            - *Demo Mode*: Uses sample summaries.
+            - *OpenAI API*: Your key, high-quality output.
+            - *Hugging Face*: Free, open-source summarization.
+        - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
+        """)
+
 
 # --- ROUTING ---
 if not st.session_state.logged_in:
