@@ -150,7 +150,7 @@ def signup_section():
             else:
         st.error("User already exists.")
         st.session_state.signup_clicked = False
-  
+
         if st.button("Continue"):
            if mode == "Use Your Own OpenAI API Key" and not api_key:
                st.warning("Please enter your API key to continue.")
@@ -302,7 +302,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
       """)
 
       st.image("flowchart.png.png", caption="LegalLite App Flow", width=500)
-  
+
       st.markdown("### 📂 Download Predefined Demo Files")
 
       col1, col2, col3 = st.columns(3)
@@ -334,7 +334,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                   mime="application/pdf"
               )
 
-  
+
 # --- ROUTING ---
 if not st.session_state.logged_in:
     tab = st.tabs(["Login", "Sign Up"])
