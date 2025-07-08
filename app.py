@@ -224,24 +224,36 @@ def app_main():
         """)
     
         st.image("flowchart.png.png", caption="LegalEase App Flow", width=400)
-        st.markdown("### 📂 Download Predefined Demo Files")
+            st.markdown("### 📂 Download Predefined Demo Files")
 
-col1, col2, col3 = st.columns(3)
+    col1, col2, col3 = st.columns(3)
 
-with col1:
-    with open("Sample_Rental_Agreement.pdf", "rb") as file:
-        st.download_button(label="🏠 Rental", data=file, file_name="rental.pdf", mime="application/pdf")
+    with col1:
+        with open("Sample_Rental_Agreement.pdf", "rb") as file:
+            st.download_button(
+                label="🏠 Rental", 
+                data=file, 
+                file_name="rental.pdf", 
+                mime="application/pdf"
+            )
 
-with col2:
-    with open("Sample_NDA_Agreement.pdf", "rb") as file:
-        st.download_button(label="🔒 NDA", data=file, file_name="nda.pdf", mime="application/pdf")
+    with col2:
+        with open("Sample_NDA_Agreement.pdf", "rb") as file:
+            st.download_button(
+                label="🔒 NDA", 
+                data=file, 
+                file_name="nda.pdf", 
+                mime="application/pdf"
+            )
 
-with col3:
-    with open("Sample_Employment_Contract.pdf", "rb") as file:
-        st.download_button(label="🧑‍💼 Employment", data=file, file_name="employee_contract.pdf", mime="application/pdf")
-
-
-
+    with col3:
+        with open("Sample_Employment_Contract.pdf", "rb") as file:
+            st.download_button(
+                label="🧑‍💼 Employment", 
+                data=file, 
+                file_name="employee_contract.pdf", 
+                mime="application/pdf"
+            )
 
 
 # --- ROUTING ---
