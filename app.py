@@ -40,7 +40,7 @@ def generate_pdf(summary_text, filename):
     margin = 40
     y = height - margin
 
-    c.drawString(margin, y, f"LegalEase Summary - {filename}")
+    c.drawString(margin, y, f"LegalLite Summary - {filename}")
     y -= 20
     c.drawString(margin, y, f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     y -= 30
@@ -113,7 +113,7 @@ def signup_section():
 
 def choose_mode():
     with st.container():
-        st.subheader("Choose how you'd like to use LegalEase:")
+        st.subheader("Choose how you'd like to use LegalLite:")
         mode = st.radio("Select Mode", ["Demo Mode (no real AI)", "Use Your Own OpenAI API Key", "Use Open-Source AI via Hugging Face"])
 
         api_key = ""
@@ -222,10 +222,10 @@ def app_main():
       - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
 
       ### 🖼️ How It Works
-      Below is a visual guide to how LegalEase works:
+      Below is a visual guide to how LegalLite works:
       """)
 
-      st.image("flowchart.png.png", caption="LegalEase App Flow", width=500)
+      st.image("flowchart.png.png", caption="LegalLite App Flow", width=500)
   
       st.markdown("### 📂 Download Predefined Demo Files")
 
@@ -273,4 +273,4 @@ else:
         app_main()
 
 # --- FOOTER ---
-st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalEase. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
+st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalLite. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
