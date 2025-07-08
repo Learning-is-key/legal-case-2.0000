@@ -210,20 +210,20 @@ def app_main():
                     st.text(summary)
 
    elif choice == "❓ Help & Feedback":
-    st.subheader("❓ Help & Feedback")
-    st.markdown("""
-    - **About LegalEase**: This tool simplifies legal documents in plain English using AI.
-    - **Modes**:
-        - *Demo Mode*: Uses sample summaries.
-        - *OpenAI API*: Your key, high-quality output.
-        - *Hugging Face*: Free, open-source summarization.
-    - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
+        st.subheader("❓ Help & Feedback")
+        st.markdown("""
+        - **About LegalEase**: This tool simplifies legal documents in plain English using AI.
+        - **Modes**:
+            - *Demo Mode*: Uses sample summaries.
+            - *OpenAI API*: Your key, high-quality output.
+            - *Hugging Face*: Free, open-source summarization.
+        - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
 
-    ### 🖼️ How It Works
-    Below is a visual guide to how LegalEase works:
-    """)
+        ### 🖼️ How It Works
+        Below is a visual guide to how LegalEase works:
+        """)
     
-    st.image("legalLite flowchart.png.", caption="LegalEase App Flow", use_column_width=True)
+        st.image("legalLite flowchart.png.png", caption="LegalEase App Flow", use_column_width=True)
 
 
 
