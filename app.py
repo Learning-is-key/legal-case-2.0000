@@ -171,6 +171,7 @@ def app_main():
         uploaded_file = st.file_uploader("Select a legal PDF", type=["pdf"])
 
         if uploaded_file:
+            doc_name = uploaded_file.name.lower()
             if uploaded_file.size > 3 * 1024 * 1024:
                 st.error("⚠️ File too large. Please upload PDFs under 3MB.")
                 return
