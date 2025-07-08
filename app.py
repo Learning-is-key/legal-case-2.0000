@@ -196,13 +196,9 @@ def app_main():
                             return
                     elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
                         prompt = f"""Please read the following legal document and extract the most important information.
-
-Summarize it using clear bullet points that highlight key terms, obligations, rights, and conditions.
-
-Use plain English. Avoid legal jargon. Focus only on what truly matters.
-
-TEXT:
-{full_text}"""
+                        Summarize it using clear bullet points that highlight key terms, obligations, rights, and conditions.Use plain English.
+                        Avoid legal jargon. Focus only on what truly matters.
+                        TEXT:{full_text}"""
 
                         with st.spinner("Simplifying using Hugging Face..."):
                             simplified = query_huggingface_api(prompt)
