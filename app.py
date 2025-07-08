@@ -88,18 +88,23 @@ def query_huggingface_api(prompt):
 
 # --- MAIN APP ---
 def login_section():
+    if 'login_clicked' not in st.session_state:
+        st.session_state.login_clicked = False
     with st.container():
         st.subheader("🔐 Login to Your Account")
         email = st.text_input("Email")
         password = st.text_input("Password", type="password")
-        if st.button("Login"):
+    if st.button("Login"):
+        st.session_state.login_clicked = True
+    if st.session_state.login_clicked:
             user = login_user(email, hash_password(password))
-            if user:
+        if user:
                 st.session_state.logged_in = True
                 st.session_state.user_email = email
                 st.success(f"Welcome back, {email}!")
-            else:
-                st.error("Invalid email or password.")
+        else:
+        st.error("Invalid email or password.")
+        st.session_state.login_clicked = False
 
 def choose_mode():
     st.markdown("### 🎛️ Choose how you'd like to use LegalLite:")
@@ -130,15 +135,21 @@ def choose_mode():
                 st.session_state.api_key = api_input  # ✅ Explicitly save it
                 st.session_state.mode_chosen = True
 def signup_section():
+    if 'signup_clicked' not in st.session_state:
+        st.session_state.signup_clicked = False
     with st.container():
         st.subheader("📝 Create an Account")
         email = st.text_input("New Email")
         password = st.text_input("New Password", type="password")
-        if st.button("Sign Up"):
+    if st.button("Sign Up"):
+        st.session_state.signup_clicked = True
+    if st.session_state.signup_clicked:
             if register_user(email, hash_password(password)):
-                st.success("Account created! You can now login.")
+        st.success("Account created! You can now login.")
+        st.session_state.signup_clicked = False
             else:
-                st.error("User already exists.")  
+        st.error("User already exists.")
+        st.session_state.signup_clicked = False
   
         if st.button("Continue"):
            if mode == "Use Your Own OpenAI API Key" and not api_key:
@@ -339,4 +350,5 @@ else:
 
 # --- FOOTER ---
 st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalLite. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
+
 
