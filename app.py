@@ -127,7 +127,7 @@ def choose_mode():
 
 def app_main():
     st.sidebar.title("📓 Navigation")
-    choice = st.sidebar.radio("Go to", ["Upload & Simplify", "My History", "Logout"])
+    choice = st.sidebar.radio("Go to", ["📤 Upload & Simplify", "📇 My Profile", "📂 My History", "❓ Help & Feedback"])
 
     if choice == "Upload & Simplify":
         st.subheader("📄 Upload Your Legal Document (PDF)")
@@ -200,12 +200,18 @@ def app_main():
             for file_name, summary, timestamp in history:
                 with st.expander(f"📄 {file_name} | 🕒 {timestamp}"):
                     st.text(summary)
-
-    elif choice == "Logout":
-        st.session_state.logged_in = False
-        st.session_state.user_email = ""
-        st.success("Logged out. Refresh to login again.")
-
+                    
+    elif choice == "📇 My Profile":
+        st.subheader("👤 My Profile")
+        if st.button("🔓 Logout"):
+            st.session_state.logged_in = False
+            st.session_state.user_email = ""
+            st.success("Logged out. Refresh to login again.")
+            
+    elif choice == "❓ Help & Feedback":
+        st.subheader("❓ Help & Feedback")
+        st.markdown("Coming soon: FAQs, support, and feedback forms.")
+         
 # --- ROUTING ---
 if not st.session_state.logged_in:
     tab = st.tabs(["Login", "Sign Up"])
