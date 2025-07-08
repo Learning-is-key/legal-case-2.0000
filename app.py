@@ -127,7 +127,7 @@ def choose_mode():
 
 def app_main():
     st.sidebar.title("📓 Navigation")
-    choice = st.sidebar.radio("Go to", ["📤 Upload & Simplify", "📇 My Profile", "📂 My History", "❓ Help & Feedback"])
+    choice = st.sidebar.radio("Go to", ["Upload & Simplify", "My History", "Logout"])
 
     if choice == "Upload & Simplify":
         st.subheader("📄 Upload Your Legal Document (PDF)")
@@ -191,7 +191,7 @@ def app_main():
                     mime="application/pdf"
                 )
 
-    elif choice == "📂 My History":
+    elif choice == "My History":
         st.subheader("📂 Your Uploaded History")
         history = get_user_history(st.session_state.user_email)
         if not history:
@@ -201,8 +201,11 @@ def app_main():
                 with st.expander(f"📄 {file_name} | 🕒 {timestamp}"):
                     st.text(summary)
 
-    
-# --- ROUTING ---
+    elif choice == "Logout":
+        st.session_state.logged_in = False
+        st.session_state.user_email = ""
+        st.success("Logged out. Refresh to login again.")
+
 # --- ROUTING ---
 if not st.session_state.logged_in:
     tab = st.tabs(["Login", "Sign Up"])
@@ -211,33 +214,10 @@ if not st.session_state.logged_in:
     with tab[1]:
         signup_section()
 else:
-    # Force Demo Mode for testing
-    st.session_state.mode = "Demo Mode (no real AI)"
-    st.session_state.mode_chosen = True
-    app_main()
-
-#if not st.session_state.logged_in:
-#    tab = st.tabs(["Login", "Sign Up"])
-#    with tab[0]:
-#        login_section()
-#    with tab[1]:
-#        signup_section()
-#else:
-#    if not st.session_state.mode_chosen:
-#        choose_mode()
-#    else:
-#        app_main()
+    if not st.session_state.mode_chosen:
+        choose_mode()
+    else:
+        app_main()
 
 # --- FOOTER ---
 st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalEase. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
-
-    elif choice == "📇 My Profile":
-        st.subheader("👤 My Profile")
-        if st.button("🔓 Logout"):
-            st.session_state.logged_in = False
-            st.session_state.user_email = ""
-            st.success("Logged out. Refresh to login again.")
-
-    elif choice == "❓ Help & Feedback":
-        st.subheader("❓ Help & Feedback")
-        st.markdown("Coming soon: FAQs, support, and feedback forms.")
