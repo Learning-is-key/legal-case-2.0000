@@ -125,11 +125,16 @@ def choose_mode():
                 st.session_state.api_key = api_key
                 st.session_state.mode_chosen = True
 
-def app_main():
+def 
+    elif choice == "❓ Help & Feedback":
+        st.subheader("❓ Help & Feedback")
+        st.markdown("Coming soon: FAQs, support, and feedback forms.")
+    
+    app_main():
     st.sidebar.title("📓 Navigation")
-    choice = st.sidebar.radio("Go to", ["📤 Upload & Simplify", "📇 My Profile", "📂 My History", "❓ Help & Feedback"])
+    choice = st.sidebar.radio("Go to", ["Upload & Simplify", "My History", "Logout"])
 
-    if choice == "Upload & Simplify":
+    if choice == "📤 Upload & Simplify":
         st.subheader("📄 Upload Your Legal Document (PDF)")
         uploaded_file = st.file_uploader("Select a legal PDF", type=["pdf"])
 
@@ -191,7 +196,14 @@ def app_main():
                     mime="application/pdf"
                 )
 
-    elif choice == "My History":
+    elif choice == "📂 My History":
+    elif choice == "📇 My Profile":
+        st.subheader("👤 My Profile")
+        if st.button("🔓 Logout"):
+            st.session_state.logged_in = False
+            st.session_state.user_email = ""
+            st.success("Logged out. Refresh to login again.")
+    
         st.subheader("📂 Your Uploaded History")
         history = get_user_history(st.session_state.user_email)
         if not history:
@@ -200,18 +212,12 @@ def app_main():
             for file_name, summary, timestamp in history:
                 with st.expander(f"📄 {file_name} | 🕒 {timestamp}"):
                     st.text(summary)
-                    
-    elif choice == "📇 My Profile":
-        st.subheader("👤 My Profile")
-        if st.button("🔓 Logout"):
-            st.session_state.logged_in = False
-            st.session_state.user_email = ""
-            st.success("Logged out. Refresh to login again.")
-            
-    elif choice == "❓ Help & Feedback":
-        st.subheader("❓ Help & Feedback")
-        st.markdown("Coming soon: FAQs, support, and feedback forms.")
-         
+
+    elif choice == "Logout":
+        st.session_state.logged_in = False
+        st.session_state.user_email = ""
+        st.success("Logged out. Refresh to login again.")
+
 # --- ROUTING ---
 if not st.session_state.logged_in:
     tab = st.tabs(["Login", "Sign Up"])
@@ -223,7 +229,12 @@ else:
     if not st.session_state.mode_chosen:
         choose_mode()
     else:
-        app_main()
+        
+    elif choice == "❓ Help & Feedback":
+        st.subheader("❓ Help & Feedback")
+        st.markdown("Coming soon: FAQs, support, and feedback forms.")
+    
+    app_main()
 
 # --- FOOTER ---
 st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalEase. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
