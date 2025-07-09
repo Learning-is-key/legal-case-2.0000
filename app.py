@@ -191,8 +191,9 @@ def app_main():
             except Exception as e:
                 st.error(f"❌ Error reading PDF: {str(e)}")
                 return
-    
+        
         if st.button("🧐 Simplify Document"):
+                simplified = None
                 if st.session_state.mode == "Use Your Own OpenAI API Key":
                      if not st.session_state.api_key:
                          st.error("❌ API key not found. Please go back and enter your key.")
@@ -215,12 +216,13 @@ def app_main():
                          st.error(f"❌ OpenAI Error: {str(e)}")
                          return
                         
-                if st.session_state.mode == "Use Open-Source AI via Hugging Face":
+                elif st.session_state.mode == "Use Open-Source AI via Hugging Face":
                     prompt = f"""Summarize the following document in bullet points:\n\n{full_text}"""
                     with st.spinner("Simplifying using Hugging Face..."):
                         simplified = query_huggingface_api(prompt)
 
                 else:
+                    doc_name = uploaded_file.name.lower()
                     if "rental" in doc_name:
                         simplified = """
 This is a rental agreement made between Mr. Rakesh Kumar (the property owner) and Mr. Anil Reddy (the person renting).
@@ -265,10 +267,10 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                     else:
                         simplified = "📜 Demo Summary: Unable to identify document type. This is a general contract."
 
+            if simplified:
                 st.subheader("✅ Simplified Summary")
                 st.success(simplified)
                 save_upload(st.session_state.user_email, uploaded_file.name, simplified)
-
                 # PDF download
                 pdf_file = generate_pdf(simplified, uploaded_file.name)
                 st.download_button(
