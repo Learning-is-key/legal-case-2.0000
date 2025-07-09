@@ -200,9 +200,9 @@ def app_main():
                          
                      try:
                          st.warning("✅ Entered OpenAI summarization block")
-                         import openai
-                         openai.api_key = st.session_state.api_key
-                         response = openai.ChatCompletion.create(
+                         from openai import OpenAI
+                         client=OpenAI(api_key = st.session_state.api_key)
+                         response = client.chat.completion.create(
                              model = "gpt-3.5-turbo",
                              messages=[
                                  {"role":"system","content": "You are a legal assistant. Simplify legal documents in plain English."},
