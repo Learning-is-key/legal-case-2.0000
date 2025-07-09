@@ -1,3 +1,4 @@
+
 ---
 
 # ⚖️ LegalLite
@@ -5,7 +6,6 @@
 **LegalLite** is a user-friendly AI-powered web application that simplifies complex legal documents into plain, understandable English. It supports login, upload history, PDF summaries, and offers multiple AI-powered summarization modes including OpenAI and Hugging Face APIs — along with a Demo Mode.
 
 ---
-
 ## 🚀 Features
 
 * 📝 **User Registration & Login**
