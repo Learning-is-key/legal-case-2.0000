@@ -197,6 +197,7 @@ def app_main():
                      if not st.session_state.api_key:
                          st.error("❌ API key not found. Please go back and enter your key.")
                          return
+                         
                      try:
                          st.warning("✅ Entered OpenAI summarization block")
                          import openai
@@ -208,7 +209,7 @@ def app_main():
                                  {"role": "user", "content": full_text}
                              ]
                          )
-                         simplified = response.choices[0].message["content"]
+                         simplified = response.choices[0].message.content
                          
                      except Exception as e:
                          st.error(f"❌ OpenAI Error: {str(e)}")
