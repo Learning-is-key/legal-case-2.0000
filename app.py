@@ -267,18 +267,18 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                     else:
                         simplified = "📜 Demo Summary: Unable to identify document type. This is a general contract."
 
-            if simplified:
-                st.subheader("✅ Simplified Summary")
-                st.success(simplified)
-                save_upload(st.session_state.user_email, uploaded_file.name, simplified)
-                # PDF download
-                pdf_file = generate_pdf(simplified, uploaded_file.name)
-                st.download_button(
-                    label="📅 Download Summary as PDF",
-                    data=pdf_file,
-                    file_name=f"simplified_{uploaded_file.name.replace('.pdf','')}.pdf",
-                    mime="application/pdf"
-                )
+                if simplified:
+                        st.subheader("✅ Simplified Summary")
+                        st.success(simplified)
+                        save_upload(st.session_state.user_email, uploaded_file.name, simplified)
+                        # PDF download
+                        pdf_file = generate_pdf(simplified, uploaded_file.name)
+                        st.download_button(
+                            label="📅 Download Summary as PDF",
+                            data=pdf_file,
+                            file_name=f"simplified_{uploaded_file.name.replace('.pdf','')}.pdf",
+                            mime="application/pdf"
+                        )
 
     if choice == "📂 My History":
         st.subheader("📂 Your Uploaded History")
