@@ -21,7 +21,7 @@ init_db()
 st.set_page_config(page_title="LegalLite", layout="wide", page_icon="⚖️")
 
 # --- HEADER BRANDING ---
-st.markdown("<h1 style='text-align: center; color: #3A6EA5;'>⚖️ Welcome to LegalLite</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #3A6EA5;'>LegalLite ⚖️</h1>", unsafe_allow_html=True)
 
 
 # --- SESSION STATE ---
