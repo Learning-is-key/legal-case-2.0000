@@ -191,7 +191,7 @@ def app_main():
             except Exception as e:
                 st.error(f"❌ Error reading PDF: {str(e)}")
                 return
-
+    
         if st.button("🧐 Simplify Document"):
                 if st.session_state.mode == "Use Your Own OpenAI API Key":
                      if not st.session_state.api_key:
@@ -199,18 +199,17 @@ def app_main():
                          return
                      try:
                          st.warning("✅ Entered OpenAI summarization block")
-                         from openai import OpenAI
-                         client = OpenAI(api_key=st.session_state.api_key)
-
-                         with st.spinner("Simplifying with OpenAI..."):
-                             response = client.chat.completions.create(
-                                 model="gpt-3.5-turbo",
-                                 messages=[
-                                     {"role": "system", "content": "You are a legal assistant. Simplify legal documents in plain English."},
-                                     {"role": "user", "content": full_text}
-                                 ]
-                             )
-                             simplified = response.choices[0].message.content
+                         import openai
+                         openai.api_key = st.session_state.api_key
+                         response = openai.ChatCompletion.create(
+                             model = "gpt-3.5-turbo",
+                             messages=[
+                                 {"role":"system","content": "You are a legal assistant. Simplify legal documents in plain English."},
+                                 {"role": "user", "content": full_text}
+                             ]
+                         )
+                         simplified = response.choices[0].message["content"]
+                         
                      except Exception as e:
                          st.error(f"❌ OpenAI Error: {str(e)}")
                          return
