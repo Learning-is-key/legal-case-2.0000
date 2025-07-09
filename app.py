@@ -236,7 +236,7 @@ This is a rental agreement made between Mr. Rakesh Kumar (the property owner) an
 
 In short: this document explains the rules of staying in the rented house, money terms, and how both sides can exit the deal.
                     """
-                    if "nda" in doc_name:
+                    elif "nda" in doc_name:
                         simplified =  """
 This Non-Disclosure Agreement (NDA) is between TechNova Pvt. Ltd. and Mr. Kiran Rao.
 
@@ -249,7 +249,7 @@ This Non-Disclosure Agreement (NDA) is between TechNova Pvt. Ltd. and Mr. Kiran 
 
 In short: Kiran must not reveal or misuse any business secrets he gets from TechNova during their potential partnership.
                     """
-                    if "employment" in doc_name:
+                    elif "employment" in doc_name:
                         simplified =  """
 This is an official job contract between GlobalTech Ltd. and Ms. Priya Sharma.
 
