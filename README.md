@@ -1,5 +1,3 @@
-Here is a complete `README.md` file for your **LegalLite** project, capturing its features, setup, usage, and tech stack — without altering the original functionality:
-
 ---
 
 # ⚖️ LegalLite
@@ -132,18 +130,8 @@ For unidentified documents: a general fallback summary is shown.
 
 ---
 
-## 📧 Support
-
-If you have issues, feedback, or feature requests, reach out at:
-📨 `support@legalease.com`
-
----
-
 ## 📝 License
 
 This project is for educational/demo purposes. Please do not use in production without appropriate validation.
 
 ---
-
-Let me know if you want a version with GitHub badge styles or deployment instructions (e.g. Streamlit Cloud or Hugging Face Spaces).
-
