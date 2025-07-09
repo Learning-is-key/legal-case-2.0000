@@ -107,6 +107,7 @@ def choose_mode():
 
     col1, col2, col3 = st.columns(3)
 
+    # initialize a session variable to hold temporary API input
     if "api_input" not in st.session_state:
         st.session_state.api_input = ""
 
