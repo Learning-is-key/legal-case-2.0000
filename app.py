@@ -397,7 +397,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
               )
 
         
-      if choice == "🚨 Risky Terms Detector":
+    if choice == "🚨 Risky Terms Detector":
         st.subheader("🚨 Risky Terms Detector")
         uploaded_file = st.file_uploader("Upload a legal PDF", type=["pdf"])
 
