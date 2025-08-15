@@ -7,6 +7,7 @@ from datetime import datetime
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from db import init_db, register_user, login_user, save_upload, get_user_history
+from gtts import gTTS   # 🎤 Voice summary
 
 # Load Hugging Face token
 try:
@@ -59,7 +60,18 @@ def generate_pdf(summary_text, filename):
     c.save()
     buffer.seek(0)
     return buffer
-
+    
+# 🎤 --- VOICE SUMMARY ---
+def generate_voice(summary_text):
+    try:
+        tts = gTTS(summary_text, lang='en')
+        audio_path = "summary_audio.mp3"
+        tts.save(audio_path)
+        return audio_path
+    except Exception as e:
+        st.error(f"❌ Voice generation failed: {e}")
+        return None
+        
 # --- HUGGING FACE API WRAPPER ---
 @st.cache_data
 def query_huggingface_api(prompt):
@@ -86,7 +98,7 @@ def query_huggingface_api(prompt):
     except Exception as e:
         return f"❌ Exception: {str(e)}"
 
-# --- MAIN APP ---
+# --- LOGIN SECTION ---
 def login_section():
     with st.container():
         st.subheader("🔐 Login to Your Account")
@@ -100,7 +112,8 @@ def login_section():
                 st.success(f"Welcome back, {email}!")
             else:
                 st.error("Invalid email or password.")
-
+                
+# --- MODE SELECTION ---
 def choose_mode():
     st.markdown("### 🎛️ Choose how you'd like to use LegalLite:")
     st.markdown("Pick a mode based on your preference:")
@@ -135,6 +148,8 @@ def choose_mode():
                 st.session_state.api_key = st.session_state.api_input
                 st.session_state.mode_chosen = True
 
+# ---SIGNUP SECTION ---
+
 def signup_section():
     with st.container():
         st.subheader("📝 Create an Account")
@@ -154,6 +169,38 @@ def signup_section():
                  st.session_state.api_key = api_key
                  st.session_state.mode_chosen = True
 
+# --- RISKY TERMS FINDER ---
+def find_risky_terms(text):
+    risky_keywords = [
+        "penalty", "termination", "breach", "fine",
+        "automatic renewal", "binding arbitration",
+        "liquidated damages", "non-compete", "non-disclosure",
+        "late fee", "without notice", "waiver of rights",
+        "exclusive jurisdiction", "governing law", "intellectual property"
+    ]
+    found_terms = []
+    for keyword in risky_keywords:
+        if keyword.lower() in text.lower():
+            found_terms.append(keyword)
+    return list(set(found_terms))
+
+# --- AI RISK TERMS ---
+def ai_risk_analysis(text, api_key):
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=api_key)
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a legal risk analysis assistant. Identify clauses in contracts that could pose legal or financial risks to the signer, explain why, and suggest ways to mitigate them."},
+                {"role": "user", "content": text}
+            ]
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        return f"❌ AI Analysis failed: {e}"
+
+# --- MAIN APP ---
 def app_main():
     if st.button("🔙 Back to Mode Selection"):
         st.session_state.mode_chosen = False
@@ -162,7 +209,7 @@ def app_main():
         return
 
     st.sidebar.title("📓 Navigation")
-    choice = st.sidebar.radio("Go to", ["👤 Profile", "📄 Upload & Simplify", "📂 My History", "❓ Help & Feedback"])
+    choice = st.sidebar.radio("Go to", [ "📄 Upload & Simplify","👤 Profile","🚨 Risky Terms Detector",  "📂 My History", "❓ Help & Feedback"])
 
     if choice == "👤 Profile":
         st.subheader("👤 Your Profile")
@@ -289,6 +336,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
             for file_name, summary, timestamp in history:
                 with st.expander(f"📄 {file_name} | 🕒 {timestamp}"):
                     st.text(summary)
+                    
     if choice == "❓ Help & Feedback":
       st.subheader("❓ Help & Feedback")
       st.markdown("""
@@ -336,7 +384,38 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                   mime="application/pdf"
               )
 
-  
+        
+      if choice == "🚨 Risky Terms Detector":
+        st.subheader("🚨 Risky Terms Detector")
+        uploaded_file = st.file_uploader("Upload a legal PDF", type=["pdf"])
+
+        if uploaded_file:
+            try:
+                # --- Extract PDF text ---
+                doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
+                full_text = "".join([page.get_text() for page in doc])
+
+                # --- Step 1: Keyword Scan ---
+                risky = find_risky_terms(full_text)
+                if risky:
+                    st.error("⚠️ Risky Terms Found:")
+                    for term in risky:
+                        st.markdown(f"- **{term}**")
+                else:
+                    st.success("✅ No risky terms detected based on keyword scan.")
+
+                # --- Step 2: Optional AI Analysis ---
+                if st.session_state.mode == "Use Your Own OpenAI API Key" and st.session_state.api_key:
+                    if st.button("🤖 Run AI Risk Analysis"):
+                        with st.spinner("Running AI risk analysis..."):
+                            ai_result = ai_risk_analysis(full_text, st.session_state.api_key)
+                            st.subheader("🧠 AI Risk Analysis Result")
+                            st.write(ai_result)
+                elif st.session_state.mode != "Use Your Own OpenAI API Key":
+                    st.info("ℹ️ For AI-powered risk analysis, use the 'Use Your Own OpenAI API Key' mode.")
+
+            except Exception as e:
+                st.error(f"❌ Error reading PDF: {e}")
 # --- ROUTING ---
 if not st.session_state.logged_in:
     login_tab, signup_tab = st.tabs(["Login", "Sign Up"])
