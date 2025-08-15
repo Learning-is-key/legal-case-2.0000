@@ -326,6 +326,18 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                             file_name=f"simplified_{uploaded_file.name.replace('.pdf','')}.pdf",
                             mime="application/pdf"
                         )
+                         # 🎤 Voice Summary
+                        audio_file_path = generate_voice(simplified)
+                        if audio_file_path:
+                            with open(audio_file_path, "rb") as audio_file:
+                                audio_bytes = audio_file.read()
+                                st.audio(audio_bytes, format="audio/mp3")
+                                st.download_button(
+                                    label="🎧 Download Voice Summary",
+                                    data=audio_bytes,
+                                file_name="summary_audio.mp3",
+                                    mime="audio/mp3"
+                            )
 
     if choice == "📂 My History":
         st.subheader("📂 Your Uploaded History")
