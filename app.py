@@ -410,37 +410,14 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                     st.success("✅ No risky terms detected based on keyword scan.")
 
                 # --- Step 2: Optional AI Analysis ---
-                col1, col2 = st.columns(2)
-
-                with col1:
-                    if st.session_state.mode == "Use Your Own OpenAI API Key" and st.session_state.api_key:
-                        if st.button("🤖 Run AI Risk Analysis (OpenAI)"):
-                            with st.spinner("Running OpenAI risk analysis..."):
-                                ai_result = ai_risk_analysis(full_text, st.session_state.api_key)
-                                st.subheader("🧠 AI Risk Analysis Result (OpenAI)")
-                                st.write(ai_result)
-
-                with col2:
-                    if st.button("🤖 Run AI Risk Analysis (Hugging Face)"):
-                        with st.spinner("Running Hugging Face risk analysis..."):
-                            hf_prompt = f"""
-                            Identify and list all clauses in the following legal document that could pose legal or financial risks to the signer. 
-                            For each risky clause, explain why it is risky and suggest a mitigation.
-
-                            Document:
-                            {full_text}
-                            """
-                            hf_result = query_huggingface_api(hf_prompt)
-                            st.subheader("🧠 AI Risk Analysis Result (Hugging Face)")
-                            st.write(hf_result)
-                    if st.session_state.mode == "Use Your Own OpenAI API Key" and st.session_state.api_key:
-                        if st.button("🤖 Run AI Risk Analysis"):
-                            with st.spinner("Running AI risk analysis..."):
-                                ai_result = ai_risk_analysis(full_text, st.session_state.api_key)
-                                st.subheader("🧠 AI Risk Analysis Result")
-                                st.write(ai_result)
-                    elif st.session_state.mode != "Use Your Own OpenAI API Key":
-                        st.info("ℹ️ For AI-powered risk analysis, use the 'Use Your Own OpenAI API Key' mode.")
+                 if st.session_state.mode == "Use Your Own OpenAI API Key" and st.session_state.api_key:
+                     if st.button("🤖 Run AI Risk Analysis"):
+                         with st.spinner("Running AI risk analysis..."):
+                              ai_result = ai_risk_analysis(full_text, st.session_state.api_key)
+                              st.subheader("🧠 AI Risk Analysis Result")
+                             st.write(ai_result)
+                elif st.session_state.mode != "Use Your Own OpenAI API Key":
+                    st.info("ℹ️ For AI-powered risk analysis, use the 'Use Your Own OpenAI API Key' mode.")
 
             except Exception as e:
                 st.error(f"❌ Error reading PDF: {e}")
