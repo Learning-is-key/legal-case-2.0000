@@ -195,14 +195,14 @@ def ai_risk_analysis(text, api_key):
 
 # --- MAIN APP ---
 def app_main():
-    if st.button("🔙 Back to Mode Selection"):
+    if st.button("◀️ Back to Mode Selection"):
         st.session_state.mode_chosen = False
         st.session_state.mode = ""
         st.session_state.api_key = ""
         return
 
-    st.sidebar.title("📓 Navigation")
-    choice = st.sidebar.radio("Go to", [ "📄 Upload & Simplify","👤 Profile","🚨 Risky Terms Detector",  "📂 My History", "❓ Help & Feedback"])
+    st.sidebar.title("🔍 Navigation")
+    choice = st.sidebar.radio("Go to", [ "📑 Upload & Simplify","👤 Profile","🚨 Risky Terms Detector",  "📂 My History", "❓ Help & Feedback"])
 
     if choice == "👤 Profile":
         st.subheader("👤 Your Profile")
@@ -212,8 +212,8 @@ def app_main():
             st.session_state.user_email = ""
             st.success("Logged out. Refresh to login again.")
 
-    if choice == "📄 Upload & Simplify":
-        st.subheader("📄 Upload Your Legal Document (PDF)")
+    if choice == "📑 Upload & Simplify":
+        st.subheader("📑 Upload Your Legal Document (PDF)")
         uploaded_file = st.file_uploader("Select a legal PDF", type=["pdf"])
 
         if uploaded_file:
@@ -232,7 +232,7 @@ def app_main():
                 st.error(f"❌ Error reading PDF: {str(e)}")
                 return
         
-        if st.button("🧐 Simplify Document"):
+        if st.button("🤔 Simplify Document"):
                 simplified = None
                 if st.session_state.mode == "Use Your Own OpenAI API Key":
                      if not st.session_state.api_key:
@@ -352,7 +352,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
           - *Hugging Face*: Free, open-source summarization.
       - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
 
-      ### 🖼️ How It Works
+      ### 👀 How It Works
       Below is a visual guide to how LegalLite works:
       """)
 
@@ -437,5 +437,5 @@ else:
         app_main()
 
 # --- FOOTER ---
-st.markdown("<hr><p style='text-align: center; color: gray; font-size: 12px;'> DISCLAMER!! LegalLite does not replace the professional legal advise it is only made to make legal information more more accessible and less intimating.</p><p style='text-align: center; color: gray; font-size: 12px;'> It is important to note that we are NOT responsible for any information that might be used as actuall legal advise.</p>", unsafe_allow_html=True)
+st.markdown("<hr><p style='text-align: center; color: gray; font-size: 12px;'>⚡DISCLAMER!! LegalLite does not replace the professional legal advise it is only made to make legal information more more accessible and less intimating.</p><p style='text-align: center; color: gray; font-size: 12px;'> It is important to note that we are NOT responsible for any information that might be used as actuall legal advise.</p>", unsafe_allow_html=True)
 st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalLite. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
