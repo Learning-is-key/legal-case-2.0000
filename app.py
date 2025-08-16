@@ -232,7 +232,7 @@ def app_main():
                 st.error(f"❌ Error reading PDF: {str(e)}")
                 return
         
-        if st.button("💭 Simplify Document"):
+        if st.button("🧐 Simplify Document"):
                 simplified = None
                 if st.session_state.mode == "Use Your Own OpenAI API Key":
                      if not st.session_state.api_key:
