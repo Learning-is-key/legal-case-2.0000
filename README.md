@@ -7,10 +7,10 @@
 ***
 ## 🚀 Features
 
-* 📝 **User Registration & Login**
+* 📝 **User Registration & Login**  
   Secure signup and login with hashed passwords using SQLite.
 
-* 📤 **Upload Legal PDFs**
+* 📤 **Upload Legal PDFs**  
   Upload documents like rental agreements, NDAs, and employment contracts.
 
 * 🤖 **AI-Based Summarization Modes**
@@ -18,30 +18,30 @@
   * 🔐 **OpenAI API**: Plug your OpenAI key to use GPT-3.5 for summarization.
   * 🌐 **Hugging Face**: Free summarization via open-source transformer model.
 
-* ⚠️ **Risky Terms Detector**
+* ⚠️ **Risky Terms Detector**  
   Automatically detects and highlights risky clauses or legal terms in uploaded documents to help users spot important red flags.
 
-* 📄 **History View**
+* 📄 **History View**  
   Track all previously uploaded files and their AI-generated summaries.
 
-* 📥 **Download PDF**
+* 📥 **Download PDF**  
   Download simplified summaries as printable PDF files.
 
-* 🎤 **Download Voice Summary**
+* 🎤 **Download Voice Summary**  
   Create and download an audio summary of your document using text-to-speech.
 
-* 🖼️ **Flowchart Display**
+* 🖼️ **Flowchart Display**  
   Visual representation of how the app works.
 
-* 🔧 **Help & Feedback Section**
+* 🔧 **Help & Feedback Section**  
   Basic onboarding, help text, and downloadable demo contracts.
 
 ***
 
 ## ⚡ Disclaimers
 
-LegalLite does *not* replace professional legal advice. The platform is intended to make legal information more accessible and less intimidating for users. It should not be relied upon for any actual legal or contractual decisions.  
-*We are NOT responsible for any information that might be used as actual legal advice.*
+LegalLite does **not** replace professional legal advice. The platform is intended to make legal information more accessible and less intimidating for users. It should not be relied upon for any actual legal or contractual decisions.  
+**We are NOT responsible for any information that might be used as actual legal advice.**
 
 ***
 
@@ -135,8 +135,8 @@ Test with the built-in sample files:
 
 ## 🧪 Demo Mode Support
 
-Demo mode triggers when filenames contain:
-`rental`, `nda`, `employment`
+Demo mode triggers when filenames contain:  
+`rental`, `nda`, `employment`  
 
 For unidentified documents: a general fallback summary is shown.
 
