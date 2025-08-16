@@ -437,5 +437,5 @@ else:
         app_main()
 
 # --- FOOTER ---
-st.markdown("<hr><p style='text-align: center; color: gray; font-size: 12px;'>⚡DISCLAMER!! LegalLite does not replace the professional legal advise it is only made to make legal information more more accessible and less intimating.</p><p style='text-align: center; color: gray; font-size: 12px;'> It is important to note that we are NOT responsible for any information that might be used as actuall legal advise.</p>", unsafe_allow_html=True)
+st.markdown("<hr><p style='text-align: center; color: gray; font-size: 11px;'>⚡DISCLAMER!! LegalLite does not replace the professional legal advise it is only made to make legal information more more accessible and less intimating.</p><p style='text-align: center; color: gray; font-size: 11px;'> It is important to note that we are NOT responsible for any information that might be used as actuall legal advise.</p>", unsafe_allow_html=True)
 st.markdown("<hr><p style='text-align: center; color: gray;'>© 2025 LegalLite. Built with ❤️ in Streamlit.</p>", unsafe_allow_html=True)
