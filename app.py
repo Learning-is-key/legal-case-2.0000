@@ -202,7 +202,7 @@ def app_main():
         return
 
     st.sidebar.title("🔍 Navigation")
-    choice = st.sidebar.radio("Go to", [ "📑 Upload & Simplify","👤 Profile","🚨 Risky Terms Detector",  "📂 My History", "❓ Help & Feedback"])
+    choice = st.sidebar.radio("Go to", [ "📑 Upload & Simplify","👤 Profile","🚨 Risky Terms Detector",  "⏳ My History", "❓ Help & Feedback"])
 
     if choice == "👤 Profile":
         st.subheader("👤 Your Profile")
@@ -314,7 +314,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                         # PDF download
                         pdf_file = generate_pdf(simplified, uploaded_file.name)
                         st.download_button(
-                            label="📅 Download Summary as PDF",
+                            label="📥 Download Summary as PDF",
                             data=pdf_file,
                             file_name=f"simplified_{uploaded_file.name.replace('.pdf','')}.pdf",
                             mime="application/pdf"
@@ -332,8 +332,8 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                                     mime="audio/mp3"
                             )
 
-    if choice == "📂 My History":
-        st.subheader("📂 Your Uploaded History")
+    if choice == "⏳ My History":
+        st.subheader("⏳ Your Uploaded History")
         history = get_user_history(st.session_state.user_email)
         if not history:
             st.info("No uploads yet.")
@@ -403,7 +403,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                 # --- Step 1: Keyword Scan ---
                 risky = find_risky_terms(full_text)
                 if risky:
-                    st.error("⚠️ Risky Terms Found:")
+                    st.error("❗Risky Terms Found:")
                     for term in risky:
                         st.markdown(f"- **{term}**")
                 else:
