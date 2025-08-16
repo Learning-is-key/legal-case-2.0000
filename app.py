@@ -160,14 +160,6 @@ def signup_section():
                 st.success("Account created! You can now login.")
             else:
                 st.error("User already exists.")  
-  
-        if st.button("Continue"):
-           if mode == "Use Your Own OpenAI API Key" and not api_key:
-               st.warning("Please enter your API key to continue.")
-           else:
-                 st.session_state.mode = mode
-                 st.session_state.api_key = api_key
-                 st.session_state.mode_chosen = True
 
 # --- RISKY TERMS FINDER ---
 def find_risky_terms(text):
