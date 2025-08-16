@@ -356,7 +356,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
       Below is a visual guide to how LegalLite works:
       """)
 
-      st.image("flowchart.png.png", caption="LegalLite App Flow", use_container_width =True)
+      st.image("flowchart.png.png", caption="LegalLite App Flow", width =500)
   
       st.markdown("### 📂 Download Predefined Demo Files")
 
