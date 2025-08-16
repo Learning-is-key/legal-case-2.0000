@@ -232,7 +232,7 @@ def app_main():
                 st.error(f"❌ Error reading PDF: {str(e)}")
                 return
         
-        if st.button("🤔 Simplify Document"):
+        if st.button("💭 Simplify Document"):
                 simplified = None
                 if st.session_state.mode == "Use Your Own OpenAI API Key":
                      if not st.session_state.api_key:
@@ -352,7 +352,7 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
           - *Hugging Face*: Free, open-source summarization.
       - **Suggestions or bugs?** Drop a message at `support@legalease.com`.
 
-      ### 👀 How It Works
+      ### 👀 How It Works?
       Below is a visual guide to how LegalLite works:
       """)
 
