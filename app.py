@@ -410,12 +410,12 @@ In short: This contract outlines Priya’s job, salary, rules during and after e
                     st.success("✅ No risky terms detected based on keyword scan.")
 
                 # --- Step 2: Optional AI Analysis ---
-                 if st.session_state.mode == "Use Your Own OpenAI API Key" and st.session_state.api_key:
-                     if st.button("🤖 Run AI Risk Analysis"):
-                         with st.spinner("Running AI risk analysis..."):
-                              ai_result = ai_risk_analysis(full_text, st.session_state.api_key)
-                              st.subheader("🧠 AI Risk Analysis Result")
-                             st.write(ai_result)
+                if st.session_state.mode == "Use Your Own OpenAI API Key" and st.session_state.api_key:
+                    if st.button("🤖 Run AI Risk Analysis"):
+                        with st.spinner("Running AI risk analysis..."):
+                            ai_result = ai_risk_analysis(full_text, st.session_state.api_key)
+                            st.subheader("🧠 AI Risk Analysis Result")
+                            st.write(ai_result)
                 elif st.session_state.mode != "Use Your Own OpenAI API Key":
                     st.info("ℹ️ For AI-powered risk analysis, use the 'Use Your Own OpenAI API Key' mode.")
 
