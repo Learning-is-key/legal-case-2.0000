@@ -75,7 +75,8 @@ def generate_voice(summary_text):
 # --- HUGGING FACE API WRAPPER ---
 @st.cache_data
 def query_huggingface_api(prompt):
-    API_URL = "https://router.huggingface.co/hf-inference"
+    API_URL = "https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn
+    "
     headers = {"Authorization": f"Bearer {hf_token}"}
 
     try:
