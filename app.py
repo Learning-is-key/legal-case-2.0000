@@ -75,9 +75,7 @@ def generate_voice(summary_text):
 # --- HUGGING FACE API WRAPPER ---
 @st.cache_data
 def query_huggingface_api(prompt):
-    API_URL = "https://router.huggingface.co/hf-inference/models/google/mt5-base
-    "
-
+    API_URL = "https://router.huggingface.co/hf-inference/models/google/mt5-base"
     headers = {
         "Authorization": f"Bearer {hf_token}",
         "Content-Type": "application/json",
