@@ -73,35 +73,93 @@ def generate_voice(summary_text):
         return None
         
 # --- HUGGING FACE API WRAPPER ---
+# --- HUGGING FACE API WRAPPER ---
 @st.cache_data
 def query_huggingface_api(prompt):
-    API_URL="https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn"
-   # API_URL = "https://router.huggingface.co/hf-inference/models/google/mt5-base"
+    # ✅ NEW URL FORMAT (The old api-inference URL is dead)
+    # We also switch to 'facebook/bart-large-cnn' which is reliable for serverless summary
+    API_URL = "https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn"
+    
     headers = {
         "Authorization": f"Bearer {hf_token}",
         "Content-Type": "application/json",
-        "X-Use-Cache": "false"  # NEW
     }
 
     try:
+        # ⚠️ IMPORTANT: Free API has a strict character limit.
+        # We must truncate the text, or the API will return an error (400 or 500).
+        # 3000 characters is roughly 1-2 pages of text.
+        truncated_prompt = prompt[:3000] 
+
         response = requests.post(
             API_URL,
             headers=headers,
-            json={"inputs": prompt}  # UPDATED
+            json={
+                "inputs": truncated_prompt,
+                "parameters": {
+                    "min_length": 30,     # Force it to write at least a bit
+                    "max_length": 150,    # Cap the length
+                    "do_sample": False    # Deterministic (faster/stable)
+                }
+            }
         )
+
+        # Handle "Model Loading" state (503 error)
+        if response.status_code == 503:
+            return "⏳ Model is loading... please wait 20 seconds and try again."
 
         if response.status_code != 200:
             return f"❌ API Error {response.status_code}: {response.text}"
 
         output = response.json()
 
+        # Handle different return formats
         if isinstance(output, list) and output:
             return output[0].get("summary_text", str(output[0]))
+        elif isinstance(output, dict) and "summary_text" in output:
+            return output["summary_text"]
 
         return f"⚠️ Unexpected output: {output}"
 
     except Exception as e:
         return f"❌ Exception: {str(e)}"
+
+
+
+
+
+
+
+
+#@st.cache_data
+#def query_huggingface_api(prompt):
+ #   API_URL="https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn"
+   # API_URL = "https://router.huggingface.co/hf-inference/models/google/mt5-base"
+   # headers = {
+  #      "Authorization": f"Bearer {hf_token}",
+  #      "Content-Type": "application/json",
+#        "X-Use-Cache": "false"  # NEW
+  #  }
+
+  #  try:
+   #     response = requests.post(
+  #          API_URL,
+  #          headers=headers,
+ #           json={"inputs": prompt}  # UPDATED
+    #    )
+
+      #  if response.status_code != 200:
+       #     return f"❌ API Error {response.status_code}: {response.text}"
+
+      #  output = response.json()
+
+#        if isinstance(output, list) and output:
+    #         return output[0].get("summary_text", str(output[0]))
+
+   #     return f"⚠️ Unexpected output: {output}"
+
+ #   except Exception as e:
+   #     return f"❌ Exception: {str(e)}"
         
 
 
