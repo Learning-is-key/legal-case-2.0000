@@ -75,28 +75,69 @@ def generate_voice(summary_text):
 # --- HUGGING FACE API WRAPPER ---
 @st.cache_data
 def query_huggingface_api(prompt):
-    API_URL = "https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn"
-    headers = {"Authorization": f"Bearer {hf_token}"}
+    API_URL = "https://api-inference.huggingface.co/models/csebuetnlp/mT5_multilingual_XLSum"
+
+    headers = {
+        "Authorization": f"Bearer {hf_token}",
+        "Content-Type": "application/json",
+        "X-Use-Cache": "false"  # NEW
+    }
 
     try:
-        response = requests.post(API_URL, headers=headers, json={
-            "inputs": prompt,
-            "parameters": {"max_length": 200, "do_sample": False},
-            "options": {"wait_for_model": True}
-        })
+        response = requests.post(
+            API_URL,
+            headers=headers,
+            json={"inputs": prompt}  # UPDATED
+        )
+
         if response.status_code != 200:
             return f"❌ API Error {response.status_code}: {response.text}"
 
         output = response.json()
-        if isinstance(output, list) and len(output) > 0:
+
+        if isinstance(output, list) and output:
             return output[0].get("summary_text", str(output[0]))
-        if isinstance(output, dict) and "summary_text" in output:
-            return output["summary_text"]
-        else:
-            return f"⚠️ Unexpected output: {output}"
+
+        return f"⚠️ Unexpected output: {output}"
 
     except Exception as e:
         return f"❌ Exception: {str(e)}"
+        
+
+
+
+
+
+
+
+
+
+
+
+#@st.cache_data
+#def query_huggingface_api(prompt):
+  #  API_URL = "https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn"
+   # headers = {"Authorization": f"Bearer {hf_token}"}
+
+  #  try:
+      #  response = requests.post(API_URL, headers=headers, json={
+     #       "inputs": prompt,
+     #       "parameters": {"max_length": 200, "do_sample": False},
+      #      "options": {"wait_for_model": True}
+       # })
+      #  if response.status_code != 200:
+        #    return f"❌ API Error {response.status_code}: {response.text}"
+
+        #output = response.json()
+       # if isinstance(output, list) and len(output) > 0:
+        #    return output[0].get("summary_text", str(output[0]))
+       # if isinstance(output, dict) and "summary_text" in output:
+     #       return output["summary_text"]
+     #   else:
+    #        return f"⚠️ Unexpected output: {output}"
+#
+   # except Exception as e:
+       # return f"❌ Exception: {str(e)}
 
 # --- LOGIN SECTION ---
 def login_section():
