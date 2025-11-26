@@ -78,7 +78,7 @@ def generate_voice(summary_text):
 def query_huggingface_api(prompt):
     # ✅ NEW URL FORMAT (The old api-inference URL is dead)
     # We also switch to 'facebook/bart-large-cnn' which is reliable for serverless summary
-    API_URI="https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+    API_URL="https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
     #API_URL = "https://router.huggingface.co/hf-inference/sshleifer/models/sshleifer/distilbart-cnn-12-6"#facebook/bart-large-cnn"
     
     headers = {
