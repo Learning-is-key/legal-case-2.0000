@@ -73,13 +73,9 @@ def generate_voice(summary_text):
         return None
         
 # --- HUGGING FACE API WRAPPER ---
-# --- HUGGING FACE API WRAPPER ---
 @st.cache_data
 def query_huggingface_api(prompt):
-    # ✅ NEW URL FORMAT (The old api-inference URL is dead)
-    # We also switch to 'facebook/bart-large-cnn' which is reliable for serverless summary
-    API_URL="https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
-    #API_URL = "https://router.huggingface.co/hf-inference/sshleifer/models/sshleifer/distilbart-cnn-12-6"#facebook/bart-large-cnn"
+    API_URL = "https://router.huggingface.co/hf-inference/sshleifer/models/sshleifer/distilbart-cnn-12-6"#facebook/bart-large-cnn"
     
     headers = {
         "Authorization": f"Bearer {hf_token}",
