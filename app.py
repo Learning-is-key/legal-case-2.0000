@@ -75,7 +75,9 @@ def generate_voice(summary_text):
 # --- HUGGING FACE API WRAPPER ---
 @st.cache_data
 def query_huggingface_api(prompt):
-    API_URL = "https://router.huggingface.co/hf-inference/sshleifer/models/sshleifer/distilbart-cnn-12-6"#facebook/bart-large-cnn"
+    API_URL = "https://router.huggingface.co/hf-inference/sshleifer/distilbart-cnn-12-6"
+    
+   # API_URL = "https://router.huggingface.co/hf-inference/sshleifer/models/sshleifer/distilbart-cnn-12-6"#facebook/bart-large-cnn"
     
     headers = {
         "Authorization": f"Bearer {hf_token}",
